@@ -1,9 +1,9 @@
 import { Pool } from "pg";
 
-const pool = new Pool({
-  user: "your_username",
+export const pool = new Pool({
+  user: "example",
   host: "localhost",
-  database: "your_database",
-  password: "your_password",
-  port: 5432,
+  database: "example",
+  password: "password",
+  port: 54320,
 });
