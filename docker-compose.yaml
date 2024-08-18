@@ -5,8 +5,8 @@ services:
     image: postgres:latest
     container_name: postgres
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: pps
+      POSTGRES_PASSWORD: jgieiorgjeiro
       POSTGRES_DB: mydatabase
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
