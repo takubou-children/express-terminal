@@ -1,40 +1,58 @@
-import { CreateUser } from "../model/user";
-import { pool } from "../setting/db";
+import { CreateUser, UpdateUser } from "../model/user";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export interface User {
   id: number;
+  name: string;
   email: string;
-  password: string;
 }
 
 export const UserRepository = {
   getAllUsers: async (): Promise<User[]> => {
-    const res = await pool.query("SELECT * FROM users");
-    return res.rows;
+    const res = await prisma.user.findMany();
+    return res;
   },
 
   getUserById: async (id: number): Promise<User | null> => {
-    const res = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
-    return res.rows[0];
+    const res = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return res;
   },
 
   createUser: async (user: CreateUser): Promise<User> => {
-    const res = await pool.query(
-      "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
-      [user.email, user.password]
-    );
-    return res.rows[0];
+    const res = await prisma.user.create({
+      data: {
+        name: user.name,
+        email: user.email,
+      },
+    });
+    return res;
   },
 
-  updateUser: async (user: User): Promise<User> => {
-    const res = await pool.query(
-      "UPDATE users SET email = $1, password = $2 WHERE id = $3 RETURNING *",
-      [user.email, user.password, user.id]
-    );
-    return res.rows[0];
+  updateUser: async (id: number, user: UpdateUser): Promise<User> => {
+    const res = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: user.name,
+        email: user.email,
+      },
+    });
+    return res;
   },
 
   deleteUser: async (id: number): Promise<void> => {
-    await pool.query("DELETE FROM users WHERE id = $1", [id]);
+    await prisma.user.delete({
+      where: {
+        id: id,
+      },
+    });
+    return Promise.resolve();
   },
 };

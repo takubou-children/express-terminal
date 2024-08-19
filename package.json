@@ -3,9 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "npx ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "npx ts-node src/index.ts"
+    "check-types": "tsc --noEmit",
+    "lint": "run-p -l -c --aggregate-output lint:*",
+    "lint:eslint": "eslint src/**/*.ts",
+    "lint:prettier": "prettier --check .",
+    "fix": "run-s -l -c fix:eslint fix:prettier",
+    "fix:eslint": "eslint --fix src/**/*.ts",
+    "fix:prettier": "prettier --write ."
   },
   "keywords": [],
   "author": "",

@@ -12,7 +12,7 @@ export const UserService = {
     return UserRepository.createUser(user);
   },
   updateUser: async (id: number, user: UpdateUser) => {
-    return UserRepository.updateUser({ ...user, id });
+    return UserRepository.updateUser(id, user);
   },
   deleteUser: async (id: number) => {
     return UserRepository.deleteUser(id);
